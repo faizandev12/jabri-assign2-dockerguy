@@ -14,16 +14,17 @@ steps:
       - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
 
   # Step 3: Deploy to Cloud Run (Toronto)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud run deploy assignment2-service \
-          --image=northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
-          --region=northamerica-northeast2 \
-          --platform=managed \
-          --quiet
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud run deploy assignment2-service \
+        --image=northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
+        --region=northamerica-northeast2 \
+        --platform=managed \
+        --allow-unauthenticated \  # Allow public access (if needed)
+        --quiet
 
 options:
   logging: NONE
