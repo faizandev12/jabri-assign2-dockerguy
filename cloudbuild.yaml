@@ -25,7 +25,3 @@ steps:
           --platform=managed \
           --quiet
 
-# Correct placement of logsBucket
-options:
-  logging: CLOUD_LOGGING_ONLY  # Optional: Explicitly set logging driver
-  logsBucket: 'gs://nacer-logs'  # Use your bucket name
