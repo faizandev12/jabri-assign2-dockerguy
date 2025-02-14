@@ -1,30 +1,35 @@
 steps:
-  # Step 1: Build Docker image (Toronto)
+  # Docker Build (Toronto region)
   - name: 'gcr.io/cloud-builders/docker'
-    args:
+    args: 
       - 'build'
       - '-t'
-      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Toronto
-      - '.' 
+      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
+      - '.'  # Assumes Dockerfile is in root directory
 
-  # Step 2: Push to Artifact Registry (Toronto)
+  # Docker Push (Toronto region)
   - name: 'gcr.io/cloud-builders/docker'
-    args:
+    args: 
       - 'push'
-      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
+      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
 
-  # Step 3: Deploy to Cloud Run (Toronto)
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      gcloud run deploy assignment2-service \
-        --image=northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
-        --region=northamerica-northeast2 \
-        --platform=managed \
-        --allow-unauthenticated \  # Allow public access (if needed)
-        --quiet
+  # Cloud Run Deploy (Toronto region)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'assignment2-service'  # Match your service name
+      - '--image'
+      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
+      - '--region'
+      - 'northamerica-northeast2'  # Toronto region
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'  # Optional for public access
+
+images:
+  - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
 
 options:
-  logging: NONE
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
