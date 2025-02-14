@@ -1,35 +1,32 @@
 steps:
-  # Docker Build (Toronto region)
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'build'
       - '-t'
       - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
-      - '.'  # Assumes Dockerfile is in root directory
+      - '.' 
 
-  # Docker Push (Toronto region)
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'push'
       - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
 
-  # Cloud Run Deploy (Toronto region)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       - 'run'
       - 'deploy'
-      - 'assignment2-service'  # Match your service name
+      - 'assignment2-service'
       - '--image'
       - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
       - '--region'
-      - 'northamerica-northeast2'  # Toronto region
+      - 'northamerica-northeast2'
+      - '--port'
+      - '8080'  # Explicitly set the port
       - '--platform'
       - 'managed'
-      - '--allow-unauthenticated'  # Optional for public access
-
-images:
-  - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${SHORT_SHA}'
+      - '--allow-unauthenticated'
+      - '--timeout=600'  # Increase timeout if needed
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
