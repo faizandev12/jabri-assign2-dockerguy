@@ -1,19 +1,32 @@
 steps:
-  # Step 1: Build the Docker image
+  # Step 1: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'build'
       - '-t'
       - 'us-central1-docker.pkg.dev/arctic-task-442619-s8/nacer-100961510/assignment2:${SHORT_SHA}'
-      - '.'
+      - '.' 
 
-  # Step 2: Push the Docker image to Artifact Registry
+  # Step 2: Push to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'push'
       - 'us-central1-docker.pkg.dev/arctic-task-442619-s8/nacer-100961510/assignment2:${SHORT_SHA}'
 
-images:
+  # Step 3: Deploy to Cloud Run (NEW STEP)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'assignment2-service'  # Your Cloud Run service name
+      - '--image'
       - 'us-central1-docker.pkg.dev/arctic-task-442619-s8/nacer-100961510/assignment2:${SHORT_SHA}'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
