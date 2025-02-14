@@ -20,8 +20,8 @@ steps:
       - '-c'
       - |
         gcloud run deploy assignment2-service \
-          --image=us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
-          --region=us-central1 \  # Iowa
+          --image=northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
+          --region=northamerica-northeast2 \  # Iowa
           --platform=managed \
           --quiet
 
