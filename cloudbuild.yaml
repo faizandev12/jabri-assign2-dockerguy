@@ -26,5 +26,4 @@ steps:
           --quiet
 
 options:
-  logging: CLOUD_LOGGING_ONLY
-  logsBucket: 'gs://nacer-logs'
+  logging: NONE
