@@ -1,5 +1,5 @@
 steps:
-  # Build Docker image
+  # Step 1: Build Docker image (Toronto region)
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -7,13 +7,13 @@ steps:
       - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
       - '.' 
 
-  # Push to Artifact Registry
+  # Step 2: Push to Artifact Registry (Toronto)
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
 
-  # Deploy to Cloud Run
+  # Step 3: Deploy to Cloud Run (Toronto)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
@@ -25,5 +25,7 @@ steps:
           --platform=managed \
           --quiet
 
+# Correct placement of logsBucket
 options:
-  logsBucket: gs://nacer-logs  # Replace with your bucket name
+  logging: CLOUD_LOGGING_ONLY  # Optional: Explicitly set logging driver
+  logsBucket: 'gs://nacer-logs'  # Use your bucket name
