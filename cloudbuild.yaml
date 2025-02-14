@@ -26,4 +26,4 @@ steps:
           --quiet
 
 options:
-  logsBucket: 'gs://nacer-logs'  # Bucket must be in `us-central1`
+  logging: NONE  # Bucket must be in `us-central1`
