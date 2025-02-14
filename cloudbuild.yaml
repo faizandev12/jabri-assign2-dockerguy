@@ -29,4 +29,3 @@ steps:
 # Correct placement of logsBucket
 options:
   logging: NONE  # Optional: Explicitly set logging driver
-  logsBucket: 'gs://nacer-logs'  # Use your bucket name
