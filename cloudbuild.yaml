@@ -4,7 +4,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Toronto
+      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Toronto
       - '.' 
 
   # Step 2: Push to Artifact Registry (Toronto)
