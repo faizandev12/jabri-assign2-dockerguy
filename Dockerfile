@@ -1,20 +1,9 @@
-# Use the official Node.js image
-FROM node:18-alpine
-
-# Set the working directory
+# Example for Node.js
+FROM node:18
 WORKDIR /app
-
-# Copy package files to install dependencies
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install --production
-
-# Copy all source files
+RUN npm install
 COPY . .
-
-# Expose the port your app runs on (e.g., 3000)
-EXPOSE 8080
-
-# Command to start the app
+ENV PORT=8080  # Force the app to use port 8080
+EXPOSE 8080     # Match Cloud Run's expected port
 CMD ["npm", "start"]
