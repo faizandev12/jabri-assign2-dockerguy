@@ -4,14 +4,14 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Iowa
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Iowa
       - '.' 
 
   # Step 2: Push to Artifact Registry (Iowa)
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
 
   # Step 3: Deploy to Cloud Run (Iowa)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -20,8 +20,8 @@ steps:
       - '-c'
       - |
         gcloud run deploy assignment2-service \
-          --image=northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
-          --region=northamerica-northeast2 \  # Iowa
+          --image=us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
+          --region=us-central1 \  # Iowa
           --platform=managed \
           --quiet
 
