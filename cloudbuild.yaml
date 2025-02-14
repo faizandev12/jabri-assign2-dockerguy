@@ -22,11 +22,12 @@ steps:
       - '--region'
       - 'northamerica-northeast2'
       - '--port'
-      - '8080'  # Explicitly set the port
+      - '8080'
+      - '--set-env-vars'
+      - 'PORT=8080'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
-      - '--timeout=600'  # Increase timeout if needed
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
