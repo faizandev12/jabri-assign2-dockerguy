@@ -1,29 +1,30 @@
 steps:
-  # Step 1: Build Docker image (Iowa region)
+  # Step 1: Build Docker image (Toronto)
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Iowa
+      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'  # Toronto
       - '.' 
 
-  # Step 2: Push to Artifact Registry (Iowa)
+  # Step 2: Push to Artifact Registry (Toronto)
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
+      - 'northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA}'
 
-  # Step 3: Deploy to Cloud Run (Iowa)
+  # Step 3: Deploy to Cloud Run (Toronto)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
         gcloud run deploy assignment2-service \
-          --image=us-central1-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
-          --region=us-central1 \  # Iowa
+          --image=northamerica-northeast2-docker.pkg.dev/$PROJECT_ID/nacer-100961510/app:${COMMIT_SHA} \
+          --region=northamerica-northeast2 \
           --platform=managed \
           --quiet
 
 options:
-  logging: NONE  # Bucket must be in `us-central1`
+  logging: CLOUD_LOGGING_ONLY
+  logsBucket: 'gs://nacer-logs'
