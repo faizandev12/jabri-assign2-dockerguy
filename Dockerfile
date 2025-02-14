@@ -1,7 +1,7 @@
 # Example for Node.js
 FROM node:18
-WORKDIR /app
-COPY . /app
+WORKDIR /src
+COPY . /src
 RUN npm install
 EXPOSE 8080
 
